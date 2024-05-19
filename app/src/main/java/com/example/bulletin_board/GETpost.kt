@@ -43,7 +43,7 @@ class GETpost : AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
         }
         //------------------------------------------까지 네비게이션 요소
-        
+
 
         val retrofit = Retrofit.Builder()
             .baseUrl("http://43.202.98.49/")

@@ -55,8 +55,14 @@ class MainActivity : AppCompatActivity() {
         nav_close_btn.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
         }
+
+        val FAQbtn = findViewById<Button>(R.id.FAQ)
+        FAQbtn.setOnClickListener {
+
+        }
         //------------------------------------------까지 네비게이션 요소
 
+        //------------------------------------------부터 검색 Retrofit
         val retrofit = Retrofit.Builder()
             .baseUrl("http://43.202.98.49/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -83,8 +89,23 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnTouchListener false // 터치 이벤트를 소비하지 않았음을 나타냄
         }
+        //------------------------------------------까지 검색 Retrofit
 
+        //------------------------------------------부터 icon click listener
+        val mypage = findViewById<ImageView>(R.id.mypage)
+        val alarm = findViewById<ImageView>(R.id.alarm)
+        val scrap = findViewById<ImageView>(R.id.scrap)
+        mypage.setOnClickListener{
+            var intent = Intent(this, Mypage::class.java)
+            startActivity(intent)
+        }
+        alarm.setOnClickListener{
 
+        }
+        scrap.setOnClickListener{
+
+        }
+        //------------------------------------------까지 icon click listener
 
     }
     private fun sendPostToServer(title: String) {
