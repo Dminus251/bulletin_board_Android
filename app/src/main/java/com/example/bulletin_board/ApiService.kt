@@ -3,6 +3,7 @@ package com.example.bulletin_board
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -12,4 +13,12 @@ interface ApiService {
 
     @POST("posts/")
     fun sendPost(@Body Posting: Posting): Call<ResponseBody>
+
+//    @GET("posts/")
+//    fun getPost(): Call<ResponseBody> // 응답을 List<Post>로 매핑
+
+
+    @GET("posts/")
+    fun getPost(): Call<ResponseBody>
+
 }

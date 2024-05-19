@@ -25,12 +25,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val testBtn = findViewById<Button>(R.id.testBtn)
+        val testBtn = findViewById<Button>(R.id.postTestBtn)
         testBtn.setOnClickListener {
             var intent = Intent(this, bulletin_board::class.java)
             startActivity(intent)
-            finish()
         }
+
+        val getTestBtn = findViewById<Button>(R.id.getTestBtn)
+        getTestBtn.setOnClickListener {
+            var intent = Intent(this, GETpost::class.java)
+            startActivity(intent)
+        }
+
+
         //------------------------------------------부터 네비게이션 요소
         val navBtn = findViewById<ImageView>(R.id.drawer)
         val nav_close_btn = findViewById<Button>(R.id.close_nav_btn)

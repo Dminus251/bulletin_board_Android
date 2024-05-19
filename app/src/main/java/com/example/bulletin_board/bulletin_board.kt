@@ -89,11 +89,11 @@ class bulletin_board : AppCompatActivity() {
                 if (response.isSuccessful) {
 
                     Toast.makeText(this@bulletin_board, "Post sent successfully!", Toast.LENGTH_SHORT).show()
-                    Log.d("create", "${response.body()?.string()}")
-                    Log.d("create", "$response")
+                    Log.d("create1", "${response.body()?.string()}")
+                    //Log.d("create2", "$response")
                 } else {
                     Toast.makeText(this@bulletin_board, "Failed to send post.", Toast.LENGTH_SHORT).show()
-                    Log.d("create", "$response")
+                    Log.d("create3", "$response")
                 }
             }
 
