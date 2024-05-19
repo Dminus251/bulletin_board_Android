@@ -1,0 +1,24 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- 댓글 작성자 -->
+    <TextView
+        android:id="@+id/textViewCommentAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Author"
+        android:textStyle="bold"
+        android:paddingBottom="4dp"/>
+
+    <!-- 댓글 내용 -->
+    <TextView
+        android:id="@+id/textViewCommentContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Comment content"
+        android:paddingBottom="4dp"/>
+</LinearLayout>

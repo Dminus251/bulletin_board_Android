@@ -1,36 +1,32 @@
 package com.example.bulletin_board
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import okhttp3.Callback
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainActivity : AppCompatActivity() {
+class bulletin_board : AppCompatActivity() {
+
+    private lateinit var commentAdapter: Comment_Adapter
+    private val commentList = mutableListOf<Comment>()
     private lateinit var apiService: ApiService
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_bulletin_board)
 
-        val testBtn = findViewById<Button>(R.id.testBtn)
-        testBtn.setOnClickListener {
-            var intent = Intent(this, bulletin_board::class.java)
-            startActivity(intent)
-            finish()
-        }
         //------------------------------------------부터 네비게이션 요소
         val navBtn = findViewById<ImageView>(R.id.drawer)
         val nav_close_btn = findViewById<Button>(R.id.close_nav_btn)
@@ -49,60 +45,64 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
         }
         //------------------------------------------까지 네비게이션 요소
+        val title_ofPost = findViewById<EditText>(R.id.title_ofPost) //포스팅 제목
+        val content_ofPost = findViewById<EditText>(R.id.content_ofPost) //포스팅 내용
+        val post_uploadBtn = findViewById<Button>(R.id.post_uploadBtn) //포스팅 버튼
+
+        val content_ofComment = findViewById<EditText>(R.id.content_ofComment) //댓글 내용
+        val comment_uploadBtn = findViewById<Button>(R.id.comment_uploadBtn) //댓글 버튼
+        val recyclerViewComments: RecyclerView = findViewById(R.id.recyclerViewComments)
+
+        commentAdapter = Comment_Adapter(commentList)
+        recyclerViewComments.adapter = commentAdapter
+        recyclerViewComments.layoutManager = LinearLayoutManager(this)
 
         val retrofit = Retrofit.Builder()
             .baseUrl("http://43.202.98.49/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
         apiService = retrofit.create(ApiService::class.java)
 
-        val search_editText = findViewById<EditText>(R.id.search_editText)
-        search_editText.setOnTouchListener { _, event ->
-            val DRAWABLE_RIGHT = 2 // 오른쪽 그림을 나타내는 상수
-            // 사용자가 손을 뗐을 때 (ACTION_UP 이벤트)
-            if (event.action == MotionEvent.ACTION_UP) {
-                // 터치 이벤트가 EditText의 오른쪽 드로어블(그림) 내에 있는지 확인
-                if (event.rawX >= (search_editText.right - search_editText.compoundDrawables[DRAWABLE_RIGHT].bounds.width())) {
-                    val search_word = search_editText.text.toString()
-                    sendPostToServer(search_word)
-                    //Toast.makeText(this, "$search_word", Toast.LENGTH_SHORT).show()
+        post_uploadBtn.setOnClickListener {
+            val postTitle = title_ofPost.text.toString()
+            val postContent = content_ofPost.text.toString()
 
-                    search_editText.text.clear() //검색창 단어 삭제
+            //텍스트 제거
+            title_ofPost.text.clear()
+            content_ofPost.text.clear()
+
+            //서버로 보내기
+            sendPost(postTitle, postContent)
 
 
-                    return@setOnTouchListener true // 터치 이벤트를 소비했음을 나타냄
-                }
-            }
-            return@setOnTouchListener false // 터치 이벤트를 소비하지 않았음을 나타냄
+
         }
 
-
-
     }
-    private fun sendPostToServer(title: String) {
-        val postRequest = PostRequest(title)
-        val call = apiService.createPost(postRequest)
 
-        call.enqueue(object : retrofit2.Callback<ResponseBody> {
+    private fun sendPost(postTitle: String, postContent: String){
+        val posting = Posting(postTitle, postContent) //Posting Data Class
+        val call = apiService.sendPost(posting)
+
+        call.enqueue(object: retrofit2.Callback<ResponseBody>{
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
 
-                    Toast.makeText(this@MainActivity, "Post sent successfully!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@bulletin_board, "Post sent successfully!", Toast.LENGTH_SHORT).show()
                     Log.d("create", "${response.body()?.string()}")
+                    Log.d("create", "$response")
                 } else {
-                    Toast.makeText(this@MainActivity, "Failed to send post.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@bulletin_board, "Failed to send post.", Toast.LENGTH_SHORT).show()
                     Log.d("create", "$response")
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Toast.makeText(this@MainActivity, "Error: " + t.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@bulletin_board, "Error: " + t.message, Toast.LENGTH_SHORT).show()
             }
+
         })
+
     }
-
-
-
 
 }
