@@ -22,7 +22,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class Login : AppCompatActivity() {
+class Login2 : AppCompatActivity() {
 
     private lateinit var context: Context
 
@@ -30,7 +30,7 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_login2)
 
 
         context = this

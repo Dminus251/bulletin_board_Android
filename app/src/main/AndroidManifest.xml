@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Bulletin_board"
         tools:targetApi="31">
         <activity
+            android:name=".Login2"
+            android:exported="false" />
+        <activity
             android:name=".Login"
             android:exported="false" />
         <activity
@@ -23,9 +26,6 @@
             android:exported="false" />
         <activity
             android:name=".Mypage"
-            android:exported="false" />
-        <activity
-            android:name=".mypage"
             android:exported="false" />
         <activity
             android:name=".GETpost"

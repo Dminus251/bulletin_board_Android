@@ -91,6 +91,11 @@ class MainActivity : AppCompatActivity() {
             var intent = Intent(this, bulletin_board::class.java)
             startActivity(intent)
         }
+        val loginBtn = findViewById<TextView>(R.id.loginBtn)
+        loginBtn.setOnClickListener {
+            var intent = Intent(this, Login2::class.java)
+            startActivity(intent)
+        }
         //------------------------------------------까지 사이드네비게이션 요소
 
 
