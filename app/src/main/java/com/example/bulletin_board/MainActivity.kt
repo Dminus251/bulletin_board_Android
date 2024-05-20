@@ -1,17 +1,29 @@
 package com.example.bulletin_board
 
+import ImageAdapter
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import okhttp3.Callback
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -21,28 +33,40 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var apiService: ApiService
+    private lateinit var drawerLayout: DrawerLayout
+    // 선택 상태를 저장할 MutableMap
+    private val selectedButtons = mutableMapOf<Int, Boolean>()
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var imageAdapter: ImageAdapter
+    private val imageList = listOf(
+        R.drawable.alarm, R.drawable.google_login, R.drawable.scrap, R.drawable.mypage
+        // 여기에 이미지 리소스 추가
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val testBtn = findViewById<Button>(R.id.postTestBtn)
-        testBtn.setOnClickListener {
-            var intent = Intent(this, bulletin_board::class.java)
-            startActivity(intent)
-        }
+//        val testBtn = findViewById<Button>(R.id.postTestBtn)
+//        testBtn.setOnClickListener {
+//            var intent = Intent(this, bulletin_board::class.java)
+//            startActivity(intent)
+//        }
+//
+//        val getTestBtn = findViewById<Button>(R.id.getTestBtn)
+//        getTestBtn.setOnClickListener {
+//            var intent = Intent(this, GETpost::class.java)
+//            startActivity(intent)
+//        }
 
-        val getTestBtn = findViewById<Button>(R.id.getTestBtn)
-        getTestBtn.setOnClickListener {
-            var intent = Intent(this, GETpost::class.java)
-            startActivity(intent)
-        }
 
-
-        //------------------------------------------부터 네비게이션 요소
+        //------------------------------------------부터 사이드 네비게이션 요소
         val navBtn = findViewById<ImageView>(R.id.drawer)
         val nav_close_btn = findViewById<Button>(R.id.close_nav_btn)
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
-        val navLayout = findViewById<com.google.android.material.navigation.NavigationView>(R.id.navigation_view)
+        val navLayout =
+            findViewById<com.google.android.material.navigation.NavigationView>(R.id.navigation_view)
 
         navBtn.setOnClickListener { //드로어 레이아웃
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -58,9 +82,17 @@ class MainActivity : AppCompatActivity() {
 
         val FAQbtn = findViewById<Button>(R.id.FAQ)
         FAQbtn.setOnClickListener {
+            var intent = Intent(this, FAQ::class.java)
+            startActivity(intent)
 
         }
-        //------------------------------------------까지 네비게이션 요소
+        val sisang = findViewById<Button>(R.id.sisang)
+        sisang.setOnClickListener {
+            var intent = Intent(this, bulletin_board::class.java)
+            startActivity(intent)
+        }
+        //------------------------------------------까지 사이드네비게이션 요소
+
 
         //------------------------------------------부터 검색 Retrofit
         val retrofit = Retrofit.Builder()
@@ -95,17 +127,27 @@ class MainActivity : AppCompatActivity() {
         val mypage = findViewById<ImageView>(R.id.mypage)
         val alarm = findViewById<ImageView>(R.id.alarm)
         val scrap = findViewById<ImageView>(R.id.scrap)
-        mypage.setOnClickListener{
+        mypage.setOnClickListener {
             var intent = Intent(this, Mypage::class.java)
             startActivity(intent)
         }
-        alarm.setOnClickListener{
+        alarm.setOnClickListener {
 
         }
-        scrap.setOnClickListener{
+        scrap.setOnClickListener {
 
         }
         //------------------------------------------까지 icon click listener
+
+
+        val gonggoButton: Button = findViewById(R.id.gonggo) // 공고 분야 버튼 예시
+        gonggoButton.setOnClickListener { showPopup(it) }
+
+        // 초기 선택 상태를 false로 설정
+        for (i in 1..15) {
+            selectedButtons[i] = false
+        }
+
 
     }
     private fun sendPostToServer(title: String) {
@@ -128,6 +170,66 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, "Error: " + t.message, Toast.LENGTH_SHORT).show()
             }
         })
+    }
+    private fun showPopup(anchorView: View) {
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView = inflater.inflate(R.layout.popup_layout, null)
+
+        val popupWindow = PopupWindow(popupView,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            true)
+
+        // 버튼 클릭 리스너 설정
+        val buttons = listOf<Button>(
+            popupView.findViewById(R.id.button1),
+            popupView.findViewById(R.id.button2),
+            popupView.findViewById(R.id.button3),
+            popupView.findViewById(R.id.button4),
+            popupView.findViewById(R.id.button5),
+            popupView.findViewById(R.id.button6),
+            popupView.findViewById(R.id.button7),
+            popupView.findViewById(R.id.button8),
+            popupView.findViewById(R.id.button9),
+            popupView.findViewById(R.id.button10),
+            popupView.findViewById(R.id.button11),
+            popupView.findViewById(R.id.button12),
+            popupView.findViewById(R.id.button13),
+            popupView.findViewById(R.id.button14),
+            popupView.findViewById(R.id.button15)
+        )
+
+
+        val defaultBackground: Drawable? = ContextCompat.getDrawable(this, R.drawable.popup_ripple)
+        val selectedBackground: Drawable? = ContextCompat.getDrawable(this, R.drawable.rounded_button_selected)
+
+        buttons.forEach { button ->
+            button.setOnClickListener {
+                if (button.background.constantState == defaultBackground?.constantState) {
+                    button.background = selectedBackground
+                } else {
+                    button.background = defaultBackground
+                }
+            }
+        }
+
+
+        // 팝업을 AnchorView 아래에 오프셋을 두고 표시
+        val yOffset = -200 // 원래 위치보다 50픽셀 위로 이동
+        popupWindow?.showAsDropDown(anchorView, 0, yOffset)
+
+        // 선택 완료 버튼 리스너
+        val selectButton: Button = popupView.findViewById(R.id.select)
+        selectButton.setOnClickListener {
+            showSelectedButtons()
+            popupWindow?.dismiss()
+        }
+
+
+    }
+    private fun showSelectedButtons() {
+        val selectedButtonIds = selectedButtons.filter { it.value }.keys
+        Toast.makeText(this, "Selected Buttons: $selectedButtonIds", Toast.LENGTH_LONG).show()
     }
 
 

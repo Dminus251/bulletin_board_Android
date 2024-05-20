@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Bulletin_board"
         tools:targetApi="31">
         <activity
+            android:name=".Login"
+            android:exported="false" />
+        <activity
             android:name=".FAQ"
             android:exported="false" />
         <activity

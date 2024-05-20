@@ -90,7 +90,9 @@
         android:id="@+id/title_ofPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Write a post"
+        android:hint="제목"
+        android:textSize="24dp"
+        android:fontFamily="@font/jua_ttf"
         android:padding="16dp" />
 
 
@@ -100,15 +102,21 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_height="100dp"
+        android:layout_height="300dp"
         android:background="@drawable/skyblue_shape"
-        android:hint="post a content"/>
+        android:hint="  내용"
+        android:textSize="24dp"
+        android:fontFamily="@font/jua_ttf"/>
 
     <Button
         android:id="@+id/post_uploadBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Post"
+        android:text="등록"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:fontFamily="@font/jua_ttf"
+        android:background="@drawable/skyblue_ripple"
         android:layout_gravity="end"
         android:layout_margin="16dp"/>
 
@@ -124,17 +132,23 @@
         android:id="@+id/content_ofComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Write a comment"
-        android:padding="16dp" />
+        android:hint=" 댓글 작성"
+        android:padding="16dp"
+        android:textSize="24dp"
+        android:fontFamily="@font/jua_ttf"/>
 
 
     <Button
         android:id="@+id/comment_uploadBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Comment"
         android:layout_gravity="end"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:text="댓글 등록"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:fontFamily="@font/jua_ttf"
+        android:background="@drawable/skyblue_ripple"/>
     </LinearLayout>
 
     <!--    Navigation contents-->
