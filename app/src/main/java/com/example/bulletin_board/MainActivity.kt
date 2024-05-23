@@ -1,6 +1,6 @@
 package com.example.bulletin_board
 
-import ImageAdapter
+
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.EditText
@@ -22,7 +23,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapp.ImageAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import okhttp3.Callback
 import okhttp3.ResponseBody
@@ -31,7 +34,9 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainActivity : AppCompatActivity() {
+//ImageAdapter의 OnItemClickListener도 상속받음 -> interface 구현해야 함 (onItemClick 메서드)
+class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
+    private lateinit var clickAnimation: Animation //여기서 초기화하면 에러 발생함
     private lateinit var apiService: ApiService
     private lateinit var drawerLayout: DrawerLayout
     // 선택 상태를 저장할 MutableMap
@@ -39,15 +44,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var imageAdapter: ImageAdapter
-    private val imageList = listOf(
-        R.drawable.alarm, R.drawable.google_login, R.drawable.scrap, R.drawable.mypage
-        // 여기에 이미지 리소스 추가
-    )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        clickAnimation = AnimationUtils.loadAnimation(this, R.anim.click_scale)
 //        val testBtn = findViewById<Button>(R.id.postTestBtn)
 //        testBtn.setOnClickListener {
 //            var intent = Intent(this, bulletin_board::class.java)
@@ -132,8 +134,12 @@ class MainActivity : AppCompatActivity() {
         val mypage = findViewById<ImageView>(R.id.mypage)
         val alarm = findViewById<ImageView>(R.id.alarm)
         val scrap = findViewById<ImageView>(R.id.scrap)
+
+
         mypage.setOnClickListener {
+            it.startAnimation(clickAnimation)
             var intent = Intent(this, Mypage::class.java)
+
             startActivity(intent)
         }
         alarm.setOnClickListener {
@@ -152,6 +158,25 @@ class MainActivity : AppCompatActivity() {
         for (i in 1..15) {
             selectedButtons[i] = false
         }
+
+        //--------------------------------공고 리사이클러 뷰
+        val images = listOf(
+            R.drawable.kongko_sample1,
+            R.drawable.kongko_sample2,
+            R.drawable.sample_kongko3,
+            R.drawable.sample_kongko4,
+            R.drawable.sample_kongko5,
+            R.drawable.sample_kongko6,
+            R.drawable.sample_kongko7,
+            R.drawable.sample_kongko8
+
+
+
+        )
+
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = ImageAdapter(this, images, this)
 
 
     }
@@ -237,7 +262,11 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Selected Buttons: $selectedButtonIds", Toast.LENGTH_LONG).show()
     }
 
-
+    override fun onItemClick(view: View, position: Int) {
+        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
+        view.startAnimation(clickAnimation)
+        // 여기서 추가 동작을 수행할 수 있습니다.
+    }
 
 
 }
