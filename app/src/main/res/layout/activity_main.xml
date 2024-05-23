@@ -309,7 +309,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/skyblue_background"
+
             android:orientation="vertical">
 
             <LinearLayout
@@ -326,24 +326,27 @@
                         android:id="@+id/img1"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:layout_marginStart="20dp"
+                        android:src="@drawable/kongko_sample1"
                         android:background="@drawable/skyblue_background"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/img2"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:scaleType="fitXY"/>
 
                     <ImageView
                         android:id="@+id/img2"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:layout_marginEnd="20dp"
                         android:layout_marginStart="16dp"
-                    android:background="@drawable/skyblue_background"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/img1"
-                    app:layout_constraintTop_toTopOf="parent" />
+                        android:background="@drawable/skyblue_background"
+                        android:src="@drawable/kongko_sample2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/img1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0"
+                        android:scaleType="fitXY"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -356,24 +359,25 @@
                         android:id="@+id/img3"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:layout_marginStart="20dp"
                         android:background="@drawable/skyblue_background"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/img4"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:scaleType="fitXY"/>
 
                     <ImageView
                         android:id="@+id/img4"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:layout_marginEnd="20dp"
+
                         android:layout_marginStart="16dp"
                     android:background="@drawable/skyblue_background"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/img3"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                        android:scaleType="fitXY"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -386,24 +390,26 @@
                         android:id="@+id/img5"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:layout_marginStart="20dp"
+
                         android:background="@drawable/skyblue_background"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/img6"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:scaleType="fitXY"/>
 
                     <ImageView
                         android:id="@+id/img6"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:layout_marginEnd="20dp"
+
                         android:layout_marginStart="16dp"
                     android:background="@drawable/skyblue_background"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/img5"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                        android:scaleType="fitXY"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -416,33 +422,28 @@
                         android:id="@+id/img7"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:layout_marginStart="20dp"
+
                         android:background="@drawable/skyblue_background"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/img8"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:scaleType="fitXY"/>
 
                     <ImageView
                         android:id="@+id/img8"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:layout_marginEnd="20dp"
+
                         android:layout_marginStart="16dp"
                     android:background="@drawable/skyblue_background"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/img7"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                        android:scaleType="fitXY"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <Button
-                    android:id="@+id/getTestBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="GET TEST" />
 
             </LinearLayout>
         </ScrollView>
