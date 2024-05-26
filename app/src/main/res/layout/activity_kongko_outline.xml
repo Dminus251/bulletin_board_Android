@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    tools:context=".MainActivity">
+
+    <!--    main contents-->
+    <LinearLayout
+        android:id="@+id/main_contents"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/drawer"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/nav"
+                android:background="@drawable/gray_ripple_background"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/jua_ttf"
+                android:gravity="center_vertical"
+                android:text="LINK"
+                android:textColor="#0000B0"
+                android:textSize="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/alarm"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/alarm"
+                android:layout_weight="1"
+                android:clickable="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/scrap"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/scrap"
+                android:layout_weight="1"
+                android:clickable="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/alarm"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/mypage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/mypage"
+                android:layout_weight="1"
+                android:clickable="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/scrap"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/kongko_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            android:paddingBottom="20dp">
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="맥스서밋(Max Summit) 연계\n모비데이즈가 주최하는 국내 최대 규모의 마케팅/애드테크 컨퍼런스로,광고주, 플랫폼, 글로벌 미디어, 트래킹 솔루션 등 다양한 산업군의 마케팅 현직자분들을 모시고 업계 최신 트렌드를 담은 세션과 네트워킹 파티를 진행합니다.\n\n맥스서밋은 6월 26일(수) ~ 6월 27일(목) 양일간 진행되며, 1일차(6/26)에 공모전 수상작 최종 PT 및 시상식이 예정되어 있습니다.최종 PT 및 시상식에는 후원사 현직자 및 마케팅 전문가분들과 함께하여 대학생 여러분들의 빛나는 아이디어를 발표할 수 있는 좋은 기회가 될 것 입니다.\n\n[공모 부문]\n서비스/마케팅 기획\n\n공모부문 : 서비스/마케팅 기획 제안서\n\n출품기업 : E-mart (이마트)\n\n공모주제 : 이마트 앱 내 신규 서비스 제안과, 이를 활용하여 매장 방문을 유도 할 수 있는 마케팅 전략\n\n[기간 및 일정]\n응모 기간 : 5월 10일(금) ~ 6월 9일(일) 23:59\n\n1차 심사 : 6월 10일(월) ~ 6월 13일(목)\n\n2차 심사 : 6월 14일(금) ~ 6월 20일(목)\n\n최종 수상작 발표 : 6월 21일(금)시상식 및 맥스서밋 당일 PT : 6월 26일(수)\n\n [지원 자격]\n국내외 대학 재학생 또는 휴학생 (*현업 종사자 지원 불가)1인 또는 팀(4인 이내) 으로 참가 가능\n\n[접수 방법]\n영 마케터스 챔피언십 공식 홈페이지(https://bit.ly/mobiymc3-3) 에서 온라인 접수\n\n[출품 규격]\n최대 50매 이내 10mb 이하 PDF 파일           \n *상세 요강은 홈페이지 참고\n\n[심사방법]\n1차 심사 : 모비데이즈 마케팅사업 리더\n\n2차 심사 : 후원사 현직자 (1~3명)\n\n부문별 수상작 확정 : 모비데이즈 운영 사무국\n\n\n[시상 내역]\n\n총 상금 700만원 (참가자 상금 최대 500만원)\n\n후원기업 최우수상 : 각 500만원 및 수상인증서\n\n후원기업 우수상 : 각 100만원 및 수상인증서\n\n모비데이즈 상 : 각 100만원 및 수상인증서\n\n\n[문의방법]\nhttps://bit.ly/mobiymc3-3*\n문의사항이 있으시다면, 상기 홈페이지 주소 내의 채널 톡 또는 mobiymc@mobidays.com 으로 연락 부탁드립니다.\n 
+
+\n대학생 대외활동 공모전 채용 사이트 링커리어\n https://linkareer.com/"
+                android:fontFamily="@font/jua_ttf"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_marginBottom="20dp"
+                android:paddingBottom="20dp"/>
+        </ScrollView>
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            />
+    </LinearLayout>
+
+    <!--    Navigation contents-->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:fitsSystemWindows="true"
+        android:background="#ffffff">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp">
+                <Button
+                    android:id="@+id/close_nav_btn"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:background="@drawable/close"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/loginBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/jua_ttf"
+                    android:text="로그인하기  >"
+                    android:background="@drawable/white_ripple"
+                    android:textSize="25dp"
+                    android:textColor="#000000"
+                    android:paddingLeft="25dp"
+                    android:layout_marginTop="30dp"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingRight="10dp"
+                    android:background="@drawable/white_ripple"
+                    android:text="자유게시판"
+                    android:fontFamily="@font/jua_ttf"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    android:drawableRight="@drawable/angle_bracket"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="15dp"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingRight="10dp"
+                    android:background="@drawable/white_ripple"
+                    android:text="꿀팁게시판"
+                    android:fontFamily="@font/jua_ttf"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    android:drawableRight="@drawable/angle_bracket"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="15dp"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingRight="10dp"
+                    android:background="@drawable/white_ripple"
+                    android:text="함께한 팀원 피드백하기"
+                    android:fontFamily="@font/jua_ttf"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    android:drawableRight="@drawable/angle_bracket"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="15dp"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingRight="10dp"
+                    android:background="@drawable/white_ripple"
+                    android:text="나의 피드백 확인하기"
+                    android:fontFamily="@font/jua_ttf"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    android:drawableRight="@drawable/angle_bracket"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="15dp"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingRight="10dp"
+                    android:background="@drawable/white_ripple"
+                    android:text="인원 모집 게시판"
+                    android:fontFamily="@font/jua_ttf"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    android:drawableRight="@drawable/angle_bracket"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="15dp"/>
+                <Button
+                    android:id="@+id/FAQ"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingRight="10dp"
+                    android:background="@drawable/white_ripple"
+                    android:text="Link-UP 사용 설명서"
+                    android:fontFamily="@font/jua_ttf"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    android:drawableRight="@drawable/angle_bracket"
+                    android:layout_marginTop="30dp"
+                    android:paddingLeft="15dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.navigation.NavigationView>
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -1,30 +1,30 @@
 package com.example.myapp
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ImageButton
-import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bulletin_board.R
 
 class ImageAdapter(
     private val context: Context,
     private val images: List<Int>,
-    private val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
-
+    private val titles: List<String>,
+    private val itemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(view: View, position: Int)
     }
 
-    //한 item_image에 imge1, img2밖에 없으니까?
     class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val img1: ImageButton = itemView.findViewById(R.id.img1)
         val img2: ImageButton = itemView.findViewById(R.id.img2)
+        val txt1: TextView = itemView.findViewById(R.id.txt1)
+        val txt2: TextView = itemView.findViewById(R.id.txt2)
 
         fun bindClickListener(position: Int, clickListener: OnItemClickListener) {
             img1.setOnClickListener {
@@ -34,7 +34,6 @@ class ImageAdapter(
                 clickListener.onItemClick(it, position * 2 + 1)
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
@@ -43,23 +42,25 @@ class ImageAdapter(
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val firstImageIndex = position * 2
-        holder.img1.setImageResource(images[firstImageIndex])
-        Log.d("ImageAdapter", "Setting img1 with resource id: ${images[firstImageIndex]}")
+        // 이미지 및 텍스트 설정
+        holder.img1.setImageResource(images[position * 2])
+        holder.txt1.text = titles[position * 2]
 
-        val secondImageIndex = firstImageIndex + 1
-        if (secondImageIndex < images.size) {
-            holder.img2.setImageResource(images[secondImageIndex])
-            holder.img2.visibility = View.VISIBLE
-            Log.d("ImageAdapter", "Setting img2 with resource id: ${images[secondImageIndex]}")
+        // 두 번째 이미지와 텍스트가 있을 경우 설정
+        if ((position * 2 + 1) < images.size) {
+            holder.img2.setImageResource(images[position * 2 + 1])
+            holder.txt2.text = titles[position * 2 + 1]
         } else {
+            // 두 번째 아이템이 없을 경우 보이지 않도록 설정
             holder.img2.visibility = View.GONE
-            Log.d("ImageAdapter", "Hiding img2 as there is no image")
+            holder.txt2.visibility = View.GONE
         }
+
         // 클릭 리스너 바인딩
         holder.bindClickListener(position, itemClickListener)
-
     }
 
-    override fun getItemCount() = (images.size + 1) / 2
+    override fun getItemCount(): Int {
+        return (images.size + 1) / 2
+    }
 }

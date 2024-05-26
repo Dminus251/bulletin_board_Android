@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/assembling"
+            android:background="#99ccff"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:text="모집 중: 3팀"
+            android:fontFamily="@font/jua_ttf"
+            android:textColor="#000000"/>
+        <Button
+            android:id="@+id/assemble_team_member"
+            android:background="#99ccff"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:text="팀원 구하기"
+            android:fontFamily="@font/jua_ttf"
+            android:textColor="#000000"/>
+        <Button
+            android:id="@+id/share"
+            android:background="#a9ccff"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:text="공유"
+            android:fontFamily="@font/jua_ttf"
+            android:textColor="#000000"/>
+        <Button
+            android:id="@+id/scrap_button"
+            android:background="#b9ccff"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:text="스크랩"
+            android:fontFamily="@font/jua_ttf"
+            android:textColor="#000000"/>
+        <Button
+            android:id="@+id/apply_via_email"
+            android:background="#c9ccff"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:text="이메일 지원"
+            android:fontFamily="@font/jua_ttf"
+            android:textColor="#000000"/>
+    </LinearLayout>
+
+
+</LinearLayout>

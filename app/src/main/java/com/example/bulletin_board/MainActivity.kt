@@ -1,6 +1,5 @@
 package com.example.bulletin_board
 
-
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -22,7 +21,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapp.ImageAdapter
@@ -33,44 +31,37 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.random.Random
+import kotlin.random.nextInt
 
-//ImageAdapter의 OnItemClickListener도 상속받음 -> interface 구현해야 함 (onItemClick 메서드)
 class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
-    private lateinit var clickAnimation: Animation //여기서 초기화하면 에러 발생함
+    private lateinit var clickAnimation: Animation
     private lateinit var apiService: ApiService
     private lateinit var drawerLayout: DrawerLayout
-    // 선택 상태를 저장할 MutableMap
     private val selectedButtons = mutableMapOf<Int, Boolean>()
+    lateinit var images: List<Int>
+    lateinit var titles: List<String>
+    private var random_number:Int = 30
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var imageAdapter: ImageAdapter
-
+    lateinit var shuffledImages: List<Int>
+    lateinit var shuffledTitles: List<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         clickAnimation = AnimationUtils.loadAnimation(this, R.anim.click_scale)
-//        val testBtn = findViewById<Button>(R.id.postTestBtn)
-//        testBtn.setOnClickListener {
-//            var intent = Intent(this, bulletin_board::class.java)
-//            startActivity(intent)
-//        }
-//
-//        val getTestBtn = findViewById<Button>(R.id.getTestBtn)
-//        getTestBtn.setOnClickListener {
-//            var intent = Intent(this, GETpost::class.java)
-//            startActivity(intent)
-//        }
 
 
-        //------------------------------------------부터 사이드 네비게이션 요소
+
         val navBtn = findViewById<ImageView>(R.id.drawer)
         val nav_close_btn = findViewById<Button>(R.id.close_nav_btn)
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         val navLayout =
             findViewById<com.google.android.material.navigation.NavigationView>(R.id.navigation_view)
 
-        navBtn.setOnClickListener { //드로어 레이아웃
+        navBtn.setOnClickListener {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)
             } else {
@@ -84,24 +75,20 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
 
         val FAQbtn = findViewById<Button>(R.id.FAQ)
         FAQbtn.setOnClickListener {
-            var intent = Intent(this, FAQ::class.java)
+            val intent = Intent(this, FAQ::class.java)
             startActivity(intent)
-
         }
         val sisang = findViewById<Button>(R.id.sisang)
         sisang.setOnClickListener {
-            var intent = Intent(this, bulletin_board::class.java)
+            val intent = Intent(this, bulletin_board::class.java)
             startActivity(intent)
         }
         val loginBtn = findViewById<TextView>(R.id.loginBtn)
         loginBtn.setOnClickListener {
-            var intent = Intent(this, Login2::class.java)
+            val intent = Intent(this, Login2::class.java)
             startActivity(intent)
         }
-        //------------------------------------------까지 사이드네비게이션 요소
 
-
-        //------------------------------------------부터 검색 Retrofit
         val retrofit = Retrofit.Builder()
             .baseUrl("http://43.202.98.49/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -110,27 +97,27 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         apiService = retrofit.create(ApiService::class.java)
 
         val search_editText = findViewById<EditText>(R.id.search_editText)
-        search_editText.setOnTouchListener { _, event ->
-            val DRAWABLE_RIGHT = 2 // 오른쪽 그림을 나타내는 상수
-            // 사용자가 손을 뗐을 때 (ACTION_UP 이벤트)
+        val total_searching_result = findViewById<TextView>(R.id.total_searching_result) //총 검색 결과
+        val searching_result_count = findViewById<TextView>(R.id.searching_result_count) //숫자
+        search_editText.setOnTouchListener { _, event -> //돋보기 클릭 리스너
+            val DRAWABLE_RIGHT = 2
             if (event.action == MotionEvent.ACTION_UP) {
-                // 터치 이벤트가 EditText의 오른쪽 드로어블(그림) 내에 있는지 확인
                 if (event.rawX >= (search_editText.right - search_editText.compoundDrawables[DRAWABLE_RIGHT].bounds.width())) {
                     val search_word = search_editText.text.toString()
+                    total_searching_result.visibility = View.VISIBLE
+                    searching_result_count.visibility = View.VISIBLE
+
                     sendPostToServer(search_word)
-                    //Toast.makeText(this, "$search_word", Toast.LENGTH_SHORT).show()
-
-                    search_editText.text.clear() //검색창 단어 삭제
-
-
-                    return@setOnTouchListener true // 터치 이벤트를 소비했음을 나타냄
+                    search_editText.text.clear()
+                    random_number = Random.nextInt(6, random_number)
+                    searching_result_count.text = "${random_number.toString()}건"
+                    shuffle_kongko(titles, images)
+                    return@setOnTouchListener true
                 }
             }
-            return@setOnTouchListener false // 터치 이벤트를 소비하지 않았음을 나타냄
+            return@setOnTouchListener false
         }
-        //------------------------------------------까지 검색 Retrofit
 
-        //------------------------------------------부터 icon click listener
         val mypage = findViewById<ImageView>(R.id.mypage)
         val alarm = findViewById<ImageView>(R.id.alarm)
         val scrap = findViewById<ImageView>(R.id.scrap)
@@ -138,8 +125,7 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
 
         mypage.setOnClickListener {
             it.startAnimation(clickAnimation)
-            var intent = Intent(this, Mypage::class.java)
-
+            val intent = Intent(this, Mypage::class.java)
             startActivity(intent)
         }
         alarm.setOnClickListener {
@@ -148,19 +134,15 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         scrap.setOnClickListener {
 
         }
-        //------------------------------------------까지 icon click listener
 
+        val gonggoButton: Button = findViewById(R.id.gonggo)
+        gonggoButton.setOnClickListener { showPopup(it, searching_result_count) }
 
-        val gonggoButton: Button = findViewById(R.id.gonggo) // 공고 분야 버튼 예시
-        gonggoButton.setOnClickListener { showPopup(it) }
-
-        // 초기 선택 상태를 false로 설정
         for (i in 1..15) {
             selectedButtons[i] = false
         }
 
-        //--------------------------------공고 리사이클러 뷰
-        val images = listOf(
+        images = listOf(
             R.drawable.kongko_sample1,
             R.drawable.kongko_sample2,
             R.drawable.sample_kongko3,
@@ -169,17 +151,33 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
             R.drawable.sample_kongko6,
             R.drawable.sample_kongko7,
             R.drawable.sample_kongko8
-
-
-
         )
+        shuffledImages = images
+        titles = listOf(
+            "2024 다양한 가족의 재발견 영상 공모전",
+            "2024년 트래블 이노베이션 아이디어 공모전",
+            "Young Marketers Championship",
+            "2024년 대전 공공데이터 활용 창업 경진 대회",
+            "VHS 비디오 공모전",
+            "2024 통계 데이터 활용 대회",
+            "제복인의 선행 미담 영상 콘텐츠 공모전",
+            "제 2회 정읍 웹툰 공모전"
+        )
+        val order_by_popularity = findViewById<Button>(R.id.order_by_popularity)
+        val order_by_registration = findViewById<Button>(R.id.order_by_registration)
+        order_by_popularity.setOnClickListener {
+            shuffle_kongko(titles, images)
+        }
+        order_by_registration.setOnClickListener {
+            shuffle_kongko(titles, images)
+        }
 
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = ImageAdapter(this, images, this)
-
-
+        imageAdapter = ImageAdapter(this, images, titles, this)
+        recyclerView.adapter = imageAdapter
     }
+
     private fun sendPostToServer(title: String) {
         val postRequest = PostRequest(title)
         val call = apiService.createPost(postRequest)
@@ -187,7 +185,6 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         call.enqueue(object : retrofit2.Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
-
                     Toast.makeText(this@MainActivity, "Post sent successfully!", Toast.LENGTH_SHORT).show()
                     Log.d("create", "${response.body()?.string()}")
                 } else {
@@ -201,18 +198,21 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
             }
         })
     }
-    private fun showPopup(anchorView: View) {
+
+    private fun showPopup(anchorView: View, searching_result_count:TextView) {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView = inflater.inflate(R.layout.popup_layout, null)
+
+
+
 
         val popupWindow = PopupWindow(popupView,
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT,
             true)
 
-        // 버튼 클릭 리스너 설정
-        val buttons = listOf<Button>(
-            popupView.findViewById(R.id.button1),
+        val buttons = listOf(
+            popupView.findViewById<Button>(R.id.button1),
             popupView.findViewById(R.id.button2),
             popupView.findViewById(R.id.button3),
             popupView.findViewById(R.id.button4),
@@ -229,7 +229,6 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
             popupView.findViewById(R.id.button15)
         )
 
-
         val defaultBackground: Drawable? = ContextCompat.getDrawable(this, R.drawable.popup_ripple)
         val selectedBackground: Drawable? = ContextCompat.getDrawable(this, R.drawable.rounded_button_selected)
 
@@ -243,30 +242,46 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
             }
         }
 
+        val yOffset = -200
+        popupWindow.showAsDropDown(anchorView, 0, yOffset)
 
-        // 팝업을 AnchorView 아래에 오프셋을 두고 표시
-        val yOffset = -200 // 원래 위치보다 50픽셀 위로 이동
-        popupWindow?.showAsDropDown(anchorView, 0, yOffset)
-
-        // 선택 완료 버튼 리스너
-        val selectButton: Button = popupView.findViewById(R.id.select)
+        val selectButton: Button = popupView.findViewById(R.id.selecting)
         selectButton.setOnClickListener {
-            showSelectedButtons()
-            popupWindow?.dismiss()
+            shuffle_kongko(titles, images)
+            random_number = Random.nextInt(6, 21)//6부터 20까지 랜덤
+            searching_result_count.text = "${random_number.toString()}건"
+            popupWindow.dismiss() //팝업 닫기
         }
-
-
-    }
-    private fun showSelectedButtons() {
-        val selectedButtonIds = selectedButtons.filter { it.value }.keys
-        Toast.makeText(this, "Selected Buttons: $selectedButtonIds", Toast.LENGTH_LONG).show()
     }
 
-    override fun onItemClick(view: View, position: Int) {
-        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
+    override fun onItemClick(view: View, position: Int) { //공고 클릭 리스너
         view.startAnimation(clickAnimation)
-        // 여기서 추가 동작을 수행할 수 있습니다.
+        var intent = Intent(this@MainActivity, kongko_outline::class.java)
+        intent.putExtra("position", position)
+        val imagesArrayList = ArrayList(shuffledImages)
+        intent.putIntegerArrayListExtra("images", imagesArrayList)
+
+        startActivity(intent)
+
     }
 
+    private fun shuffle_kongko(titles:  List<String>, images: List<Int>){
+        // 두 리스트를 Pair로 결합
+        val pairedList = images.zip(titles)
 
+        // 리스트를 랜덤으로 섞음
+        val shuffledList = pairedList.shuffled(kotlin.random.Random)
+
+        // 섞인 리스트를 분리
+        val (shuffledImagesList, shuffledTitlesList) = shuffledList.unzip()
+
+        // 섞인 값을 멤버 변수에 할당
+        shuffledImages = shuffledImagesList
+        shuffledTitles = shuffledTitlesList
+
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        imageAdapter = ImageAdapter(this@MainActivity, shuffledImages, shuffledTitles, this@MainActivity)
+        recyclerView.adapter = imageAdapter
+    }
 }

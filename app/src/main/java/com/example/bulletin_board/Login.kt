@@ -49,7 +49,11 @@ class Login : AppCompatActivity() {
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         val navLayout =
             findViewById<com.google.android.material.navigation.NavigationView>(R.id.navigation_view)
-
+        val loginBtn_in_activity = findViewById<Button>(R.id.loginBtn_in_activity)
+        loginBtn_in_activity.setOnClickListener {
+            Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
+            finish()
+        }
         navBtn.setOnClickListener { //드로어 레이아웃
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)
