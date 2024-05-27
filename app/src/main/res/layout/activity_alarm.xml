@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Scrap"
+    tools:context=".Alarm"
     android:orientation="vertical">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -86,70 +86,96 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="스크랩"
+        android:text="총 8개의 알람이 있어요."
         android:fontFamily="@font/jua_ttf"
         android:textColor="#000000"
         android:layout_marginBottom="10dp"
         android:textSize="28dp"/>
-    <LinearLayout
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@drawable/skyblue_background"
+        android:padding="8dp"
+        android:text="새로운 ‘'기획/아이디어'’ 공모전이 3개 등록됐어요! "
+        android:fontFamily="@font/jua_ttf"
+        android:textColor="#000000"
+        android:layout_marginBottom="10dp"
+        android:textSize="16dp"/>
+    <TextView
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
-        <ImageView
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/sample_kongko3"/>
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="Young Marketers Championship"
-            android:fontFamily="@font/jua_ttf"
-            android:textColor="#000000"
-            android:layout_marginBottom="10dp"
-            android:textSize="24dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@drawable/skyblue_background"
+        android:padding="8dp"
+        android:text="인원 모집을 시작한 공모전의 정원이 모두 찼어요!"
+        android:fontFamily="@font/jua_ttf"
+        android:textColor="#000000"
+        android:layout_marginBottom="10dp"
+        android:textSize="16dp"/>
+    <TextView
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
-        <ImageView
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/sample_kongko6"/>
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="2024 통계 데이터 활용 대회"
-            android:fontFamily="@font/jua_ttf"
-            android:textColor="#000000"
-            android:layout_marginBottom="10dp"
-            android:textSize="24dp"/>
-
-    </LinearLayout>
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/skyblue_background"
+        android:padding="8dp"
+        android:text="많은 사람에게 관심 받고 있는 공모전이예요!"
+        android:fontFamily="@font/jua_ttf"
+        android:textColor="#000000"
+        android:layout_marginBottom="10dp"
+        android:textSize="16dp"/>
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/skyblue_background"
+        android:padding="8dp"
+        android:text="이런 공모전은 어떠세요?"
+        android:fontFamily="@font/jua_ttf"
+        android:textColor="#000000"
+        android:layout_marginBottom="10dp"
+        android:textSize="16dp"/>
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/skyblue_background"
+        android:padding="8dp"
+        android:text="&lt;자유게시판&gt; 어제 가장 HOT한 글이에요: 공모전하면 적성을 찾을 수 있음?"
+        android:fontFamily="@font/jua_ttf"
+        android:textColor="#000000"
+        android:layout_marginBottom="10dp"
+        android:textSize="16dp"/>
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/skyblue_background"
+        android:padding="8dp"
+        android:text="내가 등록한 팀원 모집이 모두 완료됐어요!"
+        android:fontFamily="@font/jua_ttf"
+        android:textColor="#000000"
+        android:layout_marginBottom="10dp"
+        android:textSize="16dp"
+        />
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/skyblue_background"
+        android:padding="8dp"
+        android:text="팀원이 나의 키워드를 평가했어요!"
+        android:fontFamily="@font/jua_ttf"
+        android:textColor="#000000"
+        android:textSize="16dp"
+        android:layout_marginBottom="10dp"/>
 
 </LinearLayout>

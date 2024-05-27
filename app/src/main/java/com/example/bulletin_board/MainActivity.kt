@@ -1,5 +1,6 @@
 package com.example.bulletin_board
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -9,6 +10,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
@@ -41,7 +44,7 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
     private val selectedButtons = mutableMapOf<Int, Boolean>()
     lateinit var images: List<Int>
     lateinit var titles: List<String>
-    private var random_number:Int = 30
+    private var random_number: Int = 30
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var imageAdapter: ImageAdapter
@@ -52,7 +55,6 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         clickAnimation = AnimationUtils.loadAnimation(this, R.anim.click_scale)
-
 
 
         val navBtn = findViewById<ImageView>(R.id.drawer)
@@ -73,11 +75,6 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
         }
 
-        val FAQbtn = findViewById<Button>(R.id.FAQ)
-        FAQbtn.setOnClickListener {
-            val intent = Intent(this, FAQ::class.java)
-            startActivity(intent)
-        }
         val sisang = findViewById<Button>(R.id.sisang)
         sisang.setOnClickListener {
             val intent = Intent(this, bulletin_board::class.java)
@@ -87,6 +84,27 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         loginBtn.setOnClickListener {
             val intent = Intent(this, Login2::class.java)
             startActivity(intent)
+        }
+
+        val whatis_LinkUP = findViewById<Button>(R.id.whatis_LinkUP)
+        whatis_LinkUP.setOnClickListener {
+            val image_location = "whatis_linkup"
+            val resId = resources.getIdentifier(image_location, "drawable", packageName) //해당하는 리소스 id 추출
+            showImagePopup(resId)
+        }
+
+        val whatis_keyword_box = findViewById<Button>(R.id.whatis_keyword_box)
+        whatis_keyword_box.setOnClickListener {
+            val image_location = "whatis_keyword_box"
+            val resId = resources.getIdentifier(image_location, "drawable", packageName) //해당하는 리소스 id 추출
+            showImagePopup(resId)
+        }
+
+        val howto_recommended = findViewById<Button>(R.id.howto_recommended)
+        howto_recommended.setOnClickListener {
+            val image_location = "howto_recommended"
+            val resId = resources.getIdentifier(image_location, "drawable", packageName) //해당하는 리소스 id 추출
+            showImagePopup(resId)
         }
 
         val retrofit = Retrofit.Builder()
@@ -129,10 +147,14 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
             startActivity(intent)
         }
         alarm.setOnClickListener {
-
+            it.startAnimation(clickAnimation)
+            val intent = Intent(this, Alarm::class.java)
+            startActivity(intent)
         }
         scrap.setOnClickListener {
-
+            it.startAnimation(clickAnimation)
+            val intent = Intent(this, Scrap::class.java)
+            startActivity(intent)
         }
 
         val gonggoButton: Button = findViewById(R.id.gonggo)
@@ -185,10 +207,12 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         call.enqueue(object : retrofit2.Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(this@MainActivity, "Post sent successfully!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Post sent successfully!", Toast.LENGTH_SHORT)
+                        .show()
                     Log.d("create", "${response.body()?.string()}")
                 } else {
-                    Toast.makeText(this@MainActivity, "Failed to send post.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Failed to send post.", Toast.LENGTH_SHORT)
+                        .show()
                     Log.d("create", "$response")
                 }
             }
@@ -199,17 +223,16 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         })
     }
 
-    private fun showPopup(anchorView: View, searching_result_count:TextView) {
+    private fun showPopup(anchorView: View, searching_result_count: TextView) {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView = inflater.inflate(R.layout.popup_layout, null)
 
-
-
-
-        val popupWindow = PopupWindow(popupView,
+        val popupWindow = PopupWindow(
+            popupView,
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT,
-            true)
+            true
+        )
 
         val buttons = listOf(
             popupView.findViewById<Button>(R.id.button1),
@@ -230,7 +253,8 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         )
 
         val defaultBackground: Drawable? = ContextCompat.getDrawable(this, R.drawable.popup_ripple)
-        val selectedBackground: Drawable? = ContextCompat.getDrawable(this, R.drawable.rounded_button_selected)
+        val selectedBackground: Drawable? =
+            ContextCompat.getDrawable(this, R.drawable.rounded_button_selected)
 
         buttons.forEach { button ->
             button.setOnClickListener {
@@ -265,7 +289,7 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
 
     }
 
-    private fun shuffle_kongko(titles:  List<String>, images: List<Int>){
+    private fun shuffle_kongko(titles: List<String>, images: List<Int>) {
         // 두 리스트를 Pair로 결합
         val pairedList = images.zip(titles)
 
@@ -281,7 +305,27 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnItemClickListener {
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        imageAdapter = ImageAdapter(this@MainActivity, shuffledImages, shuffledTitles, this@MainActivity)
+        imageAdapter =
+            ImageAdapter(this@MainActivity, shuffledImages, shuffledTitles, this@MainActivity)
         recyclerView.adapter = imageAdapter
     }
+
+    private fun showImagePopup(resId: Int) {
+        Log.d("0527", "call showImagePopup")
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.faq_dynamic)
+        val popup_image_view = dialog.findViewById<ImageView>(R.id.popup_image_view)
+        popup_image_view.setImageResource(resId)
+
+        // 다이얼로그 배경을 투명하게 설정
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        // 다이얼로그 크기를 이미지에 맞게 조절
+        dialog.window?.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
+
+        dialog.show()
+    }
+
+
 }
